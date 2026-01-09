@@ -3,7 +3,7 @@
  * Aquesta classe crea un fil d'execució.
  * El fil mostra el seu nom i un comptador.
  */
-
+    
 public class Fil extends Thread {
 
     // Indica si el fil ha de fer una pausa amb sleep o no
