@@ -15,41 +15,37 @@ public class Coet {
     }
 
     public void arranca() {
-        // iniciar els 4 motors
-        for (int i = 0; i < NUM_MOTORS; i++) {
-            motors[i].start();
+        for (Motor motor : motors) {
+            motor.start();
         }
     }
 
     public void passaAPotencia(int p) {
-        // Validar potencia
+        
         if (p < MIN_POTENCIA || p > MAX_POTENCIA) {
             System.out.println("ERROR: La potència ha d'estar entre " + 
                                MIN_POTENCIA + " i " + MAX_POTENCIA);
             return;
         }
         
-        // Establecer potencia en todos los motores
         System.out.println("Passant a potència " + p);
-        for (int i = 0; i < NUM_MOTORS; i++) {
-            motors[i].setPotencia(p);
+        for (Motor motor : motors) {
+            motor.setPotencia(p);
         }
     }
 
     public static void main(String[] args) {
         Coet coet = new Coet();
         coet.arranca();
-        Scanner scanner = new Scanner(System.in);
-        
-        while (true) {
-            int potencia = scanner.nextInt();
-            coet.passaAPotencia(potencia);
-            
-            if (potencia == 0) {
-                break;
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (scanner.hasNextInt()) {
+                int potencia = scanner.nextInt();
+                coet.passaAPotencia(potencia);
+                
+                if (potencia == 0) {
+                    break;
+                }
             }
         }
-        
-        scanner.close();
     }
 }
