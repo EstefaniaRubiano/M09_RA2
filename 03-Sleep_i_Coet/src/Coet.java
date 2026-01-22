@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class Coet {
     private static final int NUM_MOTORS = 4;
@@ -7,28 +8,48 @@ public class Coet {
     private Motor[] motors;
 
     public Coet() {
-
+        motors = new Motor[NUM_MOTORS];
+        for (int i = 0; i < NUM_MOTORS; i++) {
+            motors[i] = new Motor(i);
+        }
     }
 
     public void arranca() {
         // iniciar els 4 motors
+        for (int i = 0; i < NUM_MOTORS; i++) {
+            motors[i].start();
+        }
     }
 
     public void passaAPotencia(int p) {
-        // Comprobar si p està entre 0 i 10
-        // Si NO està en rang -> mostrar error i return
-        // Si SI està en rang -> mostrar "Passant a potència p"
-        // Cridar a setPotencia(p) en els 4 motors
+        // Validar potencia
+        if (p < MIN_POTENCIA || p > MAX_POTENCIA) {
+            System.out.println("ERROR: La potència ha d'estar entre " + 
+                               MIN_POTENCIA + " i " + MAX_POTENCIA);
+            return;
+        }
+        
+        // Establecer potencia en todos los motores
+        System.out.println("Passant a potència " + p);
+        for (int i = 0; i < NUM_MOTORS; i++) {
+            motors[i].setPotencia(p);
+        }
     }
 
     public static void main(String[] args) {
-        // Crear un objecte Coet
-        // Arrencar el coet (truca a arranca())
-        // Crear un Scanner para leer de consola
-        // Bucle infinito:
-        //  - Leer un número entero
-        //  - Llamar a passaAPotencia(numero)
-        //  - Si el número es 0, salir del bucle
-        // Cerrar Scanner
+        Coet coet = new Coet();
+        coet.arranca();
+        Scanner scanner = new Scanner(System.in);
+        
+        while (true) {
+            int potencia = scanner.nextInt();
+            coet.passaAPotencia(potencia);
+            
+            if (potencia == 0) {
+                break;
+            }
+        }
+        
+        scanner.close();
     }
 }
