@@ -27,7 +27,7 @@ public class Esdeveniment {
         System.out.println(assistent.getName() + " ha fet una reserva. Places disponibles: " + placesDisponibles);
     }
 
-    public synchronized  void cancelaReserva(Assistent assistent) {
+    public synchronized void cancelaReserva(Assistent assistent) {
         if (assistents.contains(assistent)) {
             assistents.remove(assistent);
             placesDisponibles++;
