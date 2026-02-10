@@ -10,43 +10,61 @@ public class Filosof extends Thread{
         this.gana = 0;
     }
 
-    public void pensar() {
+    private void esperar(double min, double max) {
         try {
-            System.out.println("Filòsof: " + getName() + " pensant");
-            Thread.sleep((long)(Math.random() * 1000 + 1000));
+            double numeroAleatori = Math.random() * (max - min) + min;
+            long tempsEspera = (long)(numeroAleatori * 1000);
+            sleep(tempsEspera);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println(e);
         }
+    }
 
+    public void pensar() {
+        System.out.println("Filòsof: " + getName() + " pensant");
+        esperar(1, 2); // 1-2 segundos
     }
 
     public void menjar() {
-        boolean haMenjat = false;
-
-        while (!haMenjat) {
-            synchronized (forquillaEsquerra) {
-                if (!forquillaEsquerra.isEnUs()) {
-                    forquillaEsquerra.setEnUs(true);
-                    System.out.println("Filòsof: " + getName() + " agafa la forquilla esquerra " + forquillaEsquerra.getN_forquilles());
-
-                    synchronized(forquillaDreta) {
-                        if (!forquillaDreta.isEnUs()) {
-                            
-                            forquillaDreta.setEnUs(true);
-                            System.out.println("Filòsof: " + getName() + " agafa la forquilla dreta " + forquillaDreta.getN_forquilles());
-                            System.out.println("Filòsof: " + getName() + " menja");
-                }
-            }
+        System.out.println("Filòsof: " + getName() + " menja");
+        esperar(1, 2); 
+        if(gana > 0){                                                           //evitar numeros negatius
+        gana--;
         }
     }
 
     @Override
     public void run() {
-        while (true) { 
-            pensar();
-            menjar();
+        while (gana < 4) { 
+            if (forquillaEsquerra.isEnUs()) {
+                esperar(0.5, 1);
+                
+            } else {
+                forquillaEsquerra.setEnUs(true);
+                System.out.println("Filòsof: " + getName() + " agafa la forquilla esquerra " + forquillaEsquerra.getN_forquilles());
+                
+                if (forquillaDreta.isEnUs()) {
+                    forquillaEsquerra.setEnUs(false);
+                    System.out.println("Filòsof: " + getName() + " deixa l'esquerra(" + forquillaEsquerra.getN_forquilles() + ") i espera (dreta ocupada)");
+                    
+                    esperar(0.5, 1);
+                    
+                    if (gana < 3) gana++;
+                    System.out.println("Filòsof: " + getName() + " gana=" + gana);
+                    
+                } else {
+                    forquillaDreta.setEnUs(true);
+                    System.out.println("Filòsof: " + getName() + " agafa la forquilla dreta " + forquillaDreta.getN_forquilles());
+                    
+                    menjar();
+                    
+                    forquillaDreta.setEnUs(false);
+                    forquillaEsquerra.setEnUs(false);
+                    
+                    pensar();
+                }
+            }
         }
-
     }
-
 }
+
