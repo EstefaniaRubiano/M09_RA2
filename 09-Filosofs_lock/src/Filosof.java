@@ -83,4 +83,12 @@ public class Filosof extends Thread {
     public void setForquillaDreta(Forquilla f) {
         this.forquillaDreta = f;
     }
+
+    public Forquilla getForquillaEsquerra() {
+        return forquillaEsquerra;
+    }
+
+    public Forquilla getForquillaDreta() {
+        return forquillaDreta;
+    }
 }

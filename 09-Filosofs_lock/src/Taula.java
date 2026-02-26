@@ -25,5 +25,24 @@ public class Taula {
         }
     }
 
+    public void showTaula() {
+        for (Filosof filosof : filosofs) {
+            System.out.println("Comensal:" + filosof.getName() + 
+                " esq:" + filosof.getForquillaEsquerra().getNum() + 
+                " dret:" + filosof.getForquillaDreta().getNum());
+        }
+    }
+
+    public void cridarATaula() {
+        for (Filosof filosof : filosofs) {
+            filosof.start();
+        }
+    }
+
+    public static void main(String[] args) {
+        Taula taula = new Taula(4);
+        taula.showTaula();
+        taula.cridarATaula();
+    }
 
 }
