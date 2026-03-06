@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Barri",
+            "request": "launch",
+            "mainClass": "Barri",
+            "projectName": "M09_RA2_36de158d"
+        },
+        {
+            "type": "java",
             "name": "Taula",
             "request": "launch",
             "mainClass": "Taula",
